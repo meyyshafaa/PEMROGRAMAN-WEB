@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Slide HTML - Pemrograman WEB</title>
+  <style>
+     body { font-family: Arial, sans-serif; text-align: center; background: #acabab; }
+    .slide { 
+      display: none; 
+      padding: 35px; 
+      width: 60%;
+      margin: 35px auto;
+      border-radius: 10px;
+    }
+    .active { display: block; }
+    .nav { margin: 20px; }
+    .nav button { margin: 5px; padding: 10px 15px; }
+    h2 { color: #2c3e50; }
+
+
+
+    #slide1 { background-color: #ebabab; }
+    #slide2 { background-color: #ebabab; }
+    #slide3 { background-color: #ebabab; }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <button onclick="showSlide(1)">1</button>
+    <button onclick="showSlide(2)">2</button>
+    <button onclick="showSlide(3)">3</button>
+  </div>
+
+  <!-- Slide 1 -->
+  <div id="slide1" class="slide active">
+    <h2>Identitas</h2>
+    <p><strong>Nama:</strong> MEYLA SHAFA RIZKIANTI</p>
+    <p><strong>NIM:</strong> 04225001</p>
+    <p><strong>Prodi:</strong> SISTEM INFORMASI</p>
+  </div>
+
+  <!-- Slide 2 -->
+  <div id="slide2" class="slide">
+    <h2>Hobi</h2>
+    <ul>
+    	<li>Membaca</li>
+    	<li>Menulis</li>
+    	<li>Makan</li>
+    </ul>   
+     <style>
+      #slide2 ul {
+       margin-trim: 350px;
+      }
+     #slide2 li {
+      scroll-padding-left: 350px;
+      }
+     </style>
+  </div>
+
+  <!-- Slide 3 -->
+  <div id="slide3" class="slide">
+    <h2>Sejarah LOGO NAROTAMA</h2>
+    <p>Logo Universitas Narotama yang didirikan 8 Februari 1981 terinspirasi dari sosok sejarah Mahapatih Narotama, guru sekaligus penasihat setia Raja Airlangga. Nama dan lambang ini merepresentasikan visi sebagai institusi pendidikan yang menghasilkan cendekiawan, pemimpin, dan profesional berilmu tinggi, dinamis, serta berdedikasi tinggi.</p>
+  </div>
+
+  <script>
+    function showSlide(num) {
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      document.getElementById('slide' + num).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
