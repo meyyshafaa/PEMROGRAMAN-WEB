@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>MAP INDONESIA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ff9494;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      text-align: center;
+    }
+
+    header {
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .map-container {
+      background-color: #d3d3d3;
+      margin: 20px auto;
+      padding: 20px;
+      width: 80%;
+      border-radius: 10px;
+      color: #000;
+    }
+
+    .map-container img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #333;
+    }
+
+    nav {
+      margin: 20px 0;
+    }
+
+    nav button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    nav button:hover {
+      background-color: #555;
+    }
+
+    #content {
+      background-color: #fff;
+      color: #000;
+      margin: 20px auto;
+      padding: 20px;
+      width: 80%;
+      border-radius: 10px;
+      min-height: 150px;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>MAP INDONESIA</header>
+
+  <div class="map-container">
+    <h2>MAP INDONESIA</h2>
+    <img src="MAP INDONESIA.jpeg" alt="MAP INDONESIA">
+
+  <nav>
+    <button onclick="showContent('home')">Home</button>
+    <button onclick="showContent('SUMATRA')">SUMATRA</button>
+    <button onclick="showContent('JAWA')">JAWA</button>
+    <button onclick="showContent('KALIMANTAN')">KALIMANTAN</button>
+    <button onclick="showContent('SULAWESI')">SULAWESI</button>
+    <button onclick="showContent('BALI')">BALI</button>
+    <button onclick="showContent('PAPUA')">PAPUA</button>
+  </nav>
+
+  <div id="content">
+    <p>Selamat Datang<br>Pilih wilayah untuk melihat informasi.</p>
+  </div>
+
+  <footer>
+    © 2026 - Halaman Edukasi
+  </footer>
+
+  <script>
+    function showContent(REGION) {
+      let content = document.getElementById("content");
+      switch(REGION) {
+        case 'home':
+          content.innerHTML = "<h3>Selamat Datang</h3><p>Pilih wilayah untuk melihat informasi.</p>";
+          break;
+        case 'SUMATRA':
+          content.innerHTML = "<h3>SUMATRA</h3><p>Nama Sumatra berasal dari kerajaan Samudera Pasai di Aceh, yang pernah menjadi pusat perdagangan dan penyebaran Islam di Asia Tenggara. Letaknya yang strategis di Selat Malaka menjadikan Sumatra penting dalam jalur perdagangan internasional sejak berabad-abad lalu.</p>";
+          break;
+        case 'JAWA':
+          content.innerHTML = "<h3>JAWA</h3><p>Pulau Jawa adalah pusat pemerintahan dan ekonomi Indonesia, dengan ibu kota negara Jakarta terletak di bagian barat. Pulau ini merupakan pulau terpadat di dunia, dihuni oleh lebih dari 150 juta jiwa. Jawa memiliki gunung berapi aktif seperti Gunung Merapi dan Gunung Bromo, serta kaya akan budaya dari suku Jawa, Sunda, dan Betawi. Tradisi seperti wayang kulit, batik, dan gamelan lahir dari pulau ini.</p>";
+          break;
+        case 'KALIMANTAN':
+          content.innerHTML = "<h3>KALIMANTAN</h3><p>Kalimantan adalah bagian dari pulau Borneo, yang terbagi antara Indonesia, Malaysia, dan Brunei. Wilayah Indonesia mencakup sekitar dua pertiga pulau. Kalimantan terkenal dengan hutan hujan tropis yang luas, sungai besar seperti Sungai Kapuas, serta kekayaan sumber daya alam seperti batu bara dan minyak. Pulau ini juga menjadi rumah bagi satwa langka seperti orangutan dan bekantan.</p>";
+          break;
+        case 'SULAWESI':
+          content.innerHTML = "<h3>SULAWESI</h3><p>Sulawesi memiliki bentuk unik menyerupai huruf “K” dengan teluk dan semenanjung yang panjang. Pulau ini kaya akan keanekaragaman hayati laut, termasuk Taman Laut Bunaken yang terkenal di dunia. Budaya Sulawesi sangat beragam, dengan suku Bugis, Makassar, Toraja, dan Minahasa. Tradisi Toraja, khususnya upacara pemakaman, menjadi daya tarik budaya yang mendalam.</p>";
+          break;
+        case 'BALI':
+          content.innerHTML = "<h3>BALI</h3><p>Bali dikenal sebagai “Pulau Dewata” dan merupakan destinasi wisata internasional. Pulau ini terkenal dengan pantai indah seperti Kuta dan Sanur, sawah berundak di Ubud, serta pura-pura Hindu yang megah seperti Pura Besakih. Budaya Bali sangat khas dengan seni tari, ukiran, dan upacara keagamaan yang masih hidup hingga kini.</p>";
+          break;
+        case 'PAPUA':
+          content.innerHTML = "<h3>PAPUA</h3><p>Papua adalah pulau terbesar di Indonesia, bagian barat dari pulau New Guinea. Wilayah ini memiliki pegunungan tinggi seperti Pegunungan Jayawijaya dengan Puncak Jaya sebagai titik tertinggi di Indonesia. Papua kaya akan hutan tropis, sungai besar, dan keanekaragaman hayati. Budaya masyarakat Papua sangat beragam, dengan ratusan suku dan bahasa lokal. Papua juga dikenal dengan seni ukir, tarian tradisional, serta kehidupan masyarakat yang masih erat dengan alam.</p>";
+          break;
+        default:
+          content.innerHTML = "<p>Data tidak tersedia.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
