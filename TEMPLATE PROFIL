@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Template profil</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 200px 1fr;   /* kolom kiri 200px, kanan fleksibel */
+      grid-template-rows: 100px 1fr;      /* baris atas 100px, bawah fleksibel */
+      height: 100vh;
+    }
+    .logo {
+      background: #f1f1f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #090a09;
+      border-right: 2px solid #ccc;
+      border-bottom: 2px solid #ccc;
+    }
+    header {
+      background: #ff9393;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      border-bottom: 2px solid #ff9393;
+    }
+    nav {
+      background: #ff9393;
+      color: white;
+      padding: 0;
+      border-right: 2px solid #ff9393;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      padding: 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #ff9393;
+    }
+    nav ul li:hover {
+      background: #ff9393;
+    }
+    main {
+      padding: 20px;
+    }
+    .content-section {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #ff9393;
+      color: white;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">LOGO</div>
+    <header>HEADER WEBSITE</header>
+    
+    <nav>
+      <ul>
+        <li onclick="showSection('beranda')">Beranda</li>
+        <li onclick="showSection('profil')">Profil</li>
+        <li onclick="showSection('galeri')">Galeri</li>
+        <li onclick="showSection('kontak')">Kontak</li>
+      </ul>
+    </nav>
+    
+    <main>
+      <div id="beranda" class="content-section active">
+        <h2>Beranda</h2>
+        <p>Selamat datang.</p>
+      </div>
+      <div id="profil" class="content-section">
+        <h2>Profil</h2>
+        <p>Website ini berisi informasi tentang profil dan kegiatan.</p>
+      </div>
+      <div id="galeri" class="content-section">
+        <h2>Galeri</h2>
+        <p>Berikut adalah galeri foto kegiatan.</p>
+        <img src="MAP INDONESIA.jpeg" alt="Contoh Gambar">
+      </div>
+      <div id="kontak" class="content-section">
+        <h2>Kontak</h2>
+        <p>Hubungi kami di email: contoh@email.com</p>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    Hak Cipta shafa/04225001 © 2026
+  </footer>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.content-section');
+      sections.forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+  </script>
+</body>
+</html>
