@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Data Local Storage</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffe6f0 0%, #ffcccb 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    h2 {
+      color: #660033;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .form-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+    
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    label {
+      font-weight: bold;
+      color: #660033;
+      text-align: left;
+      font-size: 14px;
+    }
+    
+    input {
+      padding: 12px;
+      border: 2px solid #ff66b2;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #ff1493;
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.3s;
+      flex: 1;
+      min-width: 120px;
+    }
+    
+    .btn-submit {
+      background: linear-gradient(45deg, #ff66b2, #ff1493);
+      color: white;
+    }
+    
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 102, 178, 0.4);
+    }
+    
+    .data-section {
+      display: none;
+      width: 100%;
+      max-width: 800px;
+    }
+    
+    .data-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .btn-reset {
+      background: linear-gradient(45deg, #ff6b6b, #ff5252);
+      color: white;
+      padding: 10px 20px;
+    }
+    
+    .btn-reset:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    th {
+      background: linear-gradient(45deg, #ff66b2, #ff1493);
+      color: white;
+      font-weight: bold;
+    }
+    
+    tr:hover {
+      background-color: #fff5f5;
+      transform: scale(1.01);
+    }
+    
+    .btn-delete {
+      background: #ff4444;
+      color: white;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+    
+    .btn-delete:hover {
+      background: #cc0000;
+      transform: scale(1.1);
+    }
+    
+    .no-data {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      padding: 40px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .form-container, .data-section {
+        margin: 10px;
+        padding: 20px;
+      }
+      
+      table {
+        font-size: 14px;
+      }
+      
+      th, td {
+        padding: 10px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>💕 FORM INPUT DATA 💕</h2>
+  
+  <div class="form-container">
+    <form id="dataForm">
+      <label for="judul">Judul:</label>
+      <input type="text" id="judul" placeholder="Masukkan judul..." required>
+      
+      <label for="isi">Isi:</label>
+      <input type="text" id="isi" placeholder="Masukkan isi..." required>
+      
+      <label for="link">Link:</label>
+      <input type="url" id="link" placeholder="https://example.com" required>
+      
+      <div class="button-group">
+        <button type="submit" class="btn-submit">💾 Simpan Data</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="data-section" id="dataSection">
+    <div class="data-header">
+      <h3>📋 Data Tersimpan</h3>
+      <button class="btn-reset" onclick="resetAllData()">🗑️ Hapus Semua</button>
+    </div>
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Judul</th>
+          <th>Isi</th>
+          <th>Link</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    let dataArray = JSON.parse(localStorage.getItem("dataArray")) || [];
+
+    function renderTable() {
+      const tbody = document.querySelector("#dataTable tbody");
+      const dataSection = document.getElementById("dataSection");
+      
+      if (dataArray.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="no-data">📭 Belum ada data tersimpan</td></tr>';
+        dataSection.style.display = "none";
+        return;
+      }
+      
+      tbody.innerHTML = "";
+      dataArray.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${item.judul}</strong></td>
+          <td>${item.isi}</td>
+          <td><a href="${item.link}" target="_blank" style="color: #ff1493; text-decoration: none;">🔗 Buka Link</a></td>
+          <td><button class="btn-delete" onclick="deleteData(${index})">🗑️ Hapus</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+      
+      dataSection.style.display = "block";
+    }
+
+    function deleteData(index) {
+      if (confirm(`⚠️ Yakin hapus data "${dataArray[index].judul}"?`)) {
+        dataArray.splice(index, 1);
+        localStorage.setItem("dataArray", JSON.stringify(dataArray));
+        renderTable();
+      }
+    }
+
+    function resetAllData() {
+      if (confirm("⚠️ Yakin hapus SEMUA data?\n\nAksi ini tidak bisa dibatalkan!")) {
+        dataArray = [];
+        localStorage.removeItem("dataArray");
+        renderTable();
+      }
+    }
+
+    document.getElementById("dataForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const judul = document.getElementById("judul").value.trim();
+      const isi = document.getElementById("isi").value.trim();
+      const link = document.getElementById("link").value.trim();
+
+      if (!judul || !isi || !link) {
+        alert("❌ Mohon lengkapi semua field!");
+        return;
+      }
+
+      dataArray.push({ judul, isi, link });
+      localStorage.setItem("dataArray", JSON.stringify(dataArray));
+
+      this.reset();
+      renderTable();
+      
+      // Scroll ke tabel
+      document.getElementById("dataSection").scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Load data saat halaman dimuat
+    window.onload = function() {
+      renderTable();
+    };
+  </script>
+</body>
+</html>
