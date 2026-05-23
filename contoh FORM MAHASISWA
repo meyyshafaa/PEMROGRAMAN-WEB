@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Form Mahasiswa Fakultas Ilmu Komputer</title>
+
+  <style>
+
+    *{
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 30px;
+      background: linear-gradient(135deg, #ffd6e8, #fff0f7);
+      min-height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff4f9a;
+      margin-bottom: 25px;
+      font-size: 32px;
+    }
+
+    /* FORM */
+    form {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 25px;
+      border-radius: 25px;
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #ff4f9a;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 7px;
+      border: 2px solid #ffc1dc;
+      border-radius: 12px;
+      outline: none;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #ff69b4;
+      box-shadow: 0 0 8px pink;
+    }
+
+    /* BUTTON */
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff69b4, #ff8dc7);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      opacity: 0.95;
+    }
+
+    /* SUCCESS */
+    .success {
+      text-align: center;
+      color: #ff1493;
+      font-weight: bold;
+      margin-top: 18px;
+      font-size: 16px;
+    }
+
+    /* ERROR */
+    .error {
+      color: red;
+      font-size: 0.85em;
+    }
+
+    /* TABLE CONTAINER */
+    .table-container {
+      max-width: 950px;
+      margin: 40px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 25px;
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+      overflow-x: auto;
+    }
+
+    .table-title {
+      text-align: center;
+      color: #ff4f9a;
+      margin-bottom: 20px;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 15px;
+    }
+
+    th {
+      background: linear-gradient(135deg, #ff8dc7, #ff69b4);
+      color: white;
+      padding: 14px;
+      font-size: 15px;
+    }
+
+    td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ffe0ef;
+      background: #fff9fc;
+    }
+
+    tr:hover td {
+      background: #ffeaf4;
+      transition: 0.2s;
+    }
+
+    /* DELETE BUTTON */
+    .deleteBtn {
+      background: #ff4f9a;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .deleteBtn:hover {
+      background: #ff2f84;
+    }
+
+    /* CLEAR BUTTON */
+    #clearData {
+      display: block;
+      margin: 25px auto 0;
+      background: #ff1493;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <h2>FORM MAHASISWA</h2>
+
+  <!-- FORM -->
+  <form id="myForm">
+
+    <label>
+      NIM:
+      <input type="text" id="nim" required>
+      <span class="error" id="nimError"></span>
+    </label>
+
+    <label>
+      Nama:
+      <input type="text" id="nama" required>
+      <span class="error" id="namaError"></span>
+    </label>
+
+    <label>
+      Email:
+      <input type="email" id="email" required>
+      <span class="error" id="emailError"></span>
+    </label>
+
+    <label>
+      Fakultas:
+      <select id="fakultas" required>
+        <option value=""> -- Pilih Fakultas -- </option>
+        <option value="TI">Teknik Informatika</option>
+        <option value="SI">Sistem Informasi</option>
+        <option value="SK">Sistem Komputer</option>
+      </select>
+
+      <span class="error" id="fakultasError"></span>
+    </label>
+
+    <button type="submit">
+      💾 Submit
+    </button>
+
+  </form>
+
+  <!-- SUCCESS MESSAGE -->
+  <div id="successMessage" class="success"></div>
+
+  <!-- TABLE -->
+  <div class="table-container">
+
+    <h3 class="table-title">
+       Daftar Data Tersimpan 
+    </h3>
+
+    <table id="dataTable">
+
+      <thead>
+        <tr>
+          <th>NIM</th>
+          <th>Nama</th>
+          <th>Email</th>
+          <th>Fakultas</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+
+      <tbody></tbody>
+
+    </table>
+
+    <button id="clearData">
+      🗑️ Hapus Semua Data
+    </button>
+
+  </div>
+
+  <script>
+
+    // RENDER TABLE
+    function renderTable() {
+
+      const tbody =
+        document.querySelector("#dataTable tbody");
+
+      tbody.innerHTML = "";
+
+      const savedData =
+        JSON.parse(localStorage.getItem("formDataList")) || [];
+
+      savedData.forEach((item, index) => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${item.nim}</td>
+          <td>${item.nama}</td>
+          <td>${item.email}</td>
+          <td>${item.fakultas}</td>
+
+          <td>
+            <button class="deleteBtn" data-index="${index}">
+              Hapus
+            </button>
+          </td>
+        `;
+
+        tbody.appendChild(row);
+      });
+
+      // DELETE BUTTON
+      document.querySelectorAll(".deleteBtn")
+      .forEach(btn => {
+
+        btn.addEventListener("click", function() {
+
+          const idx =
+            this.getAttribute("data-index");
+
+          const dataList =
+            JSON.parse(localStorage.getItem("formDataList")) || [];
+
+          dataList.splice(idx, 1);
+
+          localStorage.setItem(
+            "formDataList",
+            JSON.stringify(dataList)
+          );
+
+          renderTable();
+
+          document.getElementById("successMessage").textContent =
+            "🗑️ Data berhasil dihapus.";
+        });
+
+      });
+    }
+
+    // FORM SUBMIT
+    document.getElementById("myForm")
+    .addEventListener("submit", function(e) {
+
+      e.preventDefault();
+
+      let valid = true;
+
+      const nim =
+        document.getElementById("nim").value.trim();
+
+      const nama =
+        document.getElementById("nama").value.trim();
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const fakultas =
+        document.getElementById("fakultas").value;
+
+      // VALIDASI NIM
+      if (!/^[0-9]+$/.test(nim)) {
+
+        document.getElementById("nimError").textContent =
+          "NIM hanya boleh angka.";
+
+        valid = false;
+
+      } else {
+
+        document.getElementById("nimError").textContent = "";
+      }
+
+      // VALIDASI NAMA
+      if (/['"]/.test(nama)) {
+
+        document.getElementById("namaError").textContent =
+          "Nama tidak boleh mengandung tanda petik.";
+
+        valid = false;
+
+      } else {
+
+        document.getElementById("namaError").textContent = "";
+      }
+
+      // VALIDASI EMAIL
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+        document.getElementById("emailError").textContent =
+          "Format email tidak valid.";
+
+        valid = false;
+
+      } else {
+
+        document.getElementById("emailError").textContent = "";
+      }
+
+      // VALIDASI FAKULTAS
+      const kodeFakultas = {
+        "TI": "041",
+        "SI": "042",
+        "SK": "043"
+      };
+
+      if (
+        fakultas &&
+        !nim.startsWith(kodeFakultas[fakultas])
+      ) {
+
+        document.getElementById("fakultasError").textContent =
+          "NIM tidak sesuai dengan fakultas.";
+
+        valid = false;
+
+      } else {
+
+        document.getElementById("fakultasError").textContent = "";
+      }
+
+      // JIKA VALID
+      if (valid) {
+
+        document.getElementById("successMessage").textContent =
+          " Data berhasil disimpan ";
+
+        const dataList =
+          JSON.parse(localStorage.getItem("formDataList")) || [];
+
+        dataList.push({
+          nim,
+          nama,
+          email,
+          fakultas
+        });
+
+        localStorage.setItem(
+          "formDataList",
+          JSON.stringify(dataList)
+        );
+
+        document.getElementById("myForm").reset();
+
+        renderTable();
+      }
+
+    });
+
+    // HAPUS SEMUA DATA
+    document.getElementById("clearData")
+    .addEventListener("click", function() {
+
+      localStorage.removeItem("formDataList");
+
+      document.getElementById("successMessage").textContent =
+        "🗑️ Semua data berhasil dihapus.";
+
+      renderTable();
+
+    });
+
+    // LOAD DATA
+    window.onload = renderTable;
+
+  </script>
+
+</body>
+</html>
