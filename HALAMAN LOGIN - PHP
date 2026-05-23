@@ -1,0 +1,93 @@
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+
+    header("Location: coba.php");
+    exit();
+}
+
+
+$username = $_POST['username'];
+$password = $_POST['password'];
+
+
+$user_benar = "admin";
+$pass_benar = "12345";
+
+
+// Username dan Password salah
+if ($username != $user_benar && $password != $pass_benar) {
+
+    echo "
+    <script>
+
+        alert('Username dan Password salah!');
+
+        localStorage.clear();
+
+        window.location.href='coba.php';
+
+    </script>
+    ";
+
+    exit();
+}
+
+
+// Username salah
+if ($username != $user_benar) {
+
+    echo "
+    <script>
+
+        alert('Username salah!');
+
+        localStorage.removeItem('username');
+
+        localStorage.setItem('password','$password');
+
+        window.location.href='coba.php';
+
+    </script>
+    ";
+
+    exit();
+}
+
+
+// Password salah
+if ($password != $pass_benar) {
+
+    echo "
+    <script>
+
+        alert('Password salah!');
+
+        localStorage.setItem('username','$username');
+
+        localStorage.removeItem('password');
+
+        window.location.href='coba.php';
+
+    </script>
+    ";
+
+    exit();
+}
+
+
+// Login berhasil
+echo "
+<script>
+
+    alert('Login berhasil!');
+
+    localStorage.removeItem('username');
+    localStorage.removeItem('password');
+
+    window.location.href='dashboard.php';
+
+</script>
+";
+
+?>
