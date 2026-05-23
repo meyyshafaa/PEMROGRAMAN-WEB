@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Beauty Cosmic</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#fff0f5;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:230px;
+    height:100vh;
+    background:#ffb3c6;
+    position:fixed;
+    padding:20px;
+    color:white;
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.sidebar li{
+    list-style:none;
+    background:#ff8fab;
+    padding:14px;
+    margin-bottom:10px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.sidebar li:hover{
+    background:#fb6f92;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    margin-right:340px;
+    padding:20px;
+}
+
+.header,
+.card,
+.produk-card,
+.cart-box,
+table{
+    background:white;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.header{
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.header h1{
+    color:#d63384;
+}
+
+/* CARD */
+
+.cards{
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    flex:1;
+    padding:20px;
+    text-align:center;
+}
+
+.card h3{
+    color:#ff5d8f;
+}
+
+/* PRODUK */
+
+.produk-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.produk-card{
+    overflow:hidden;
+}
+
+.produk-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.produk-detail{
+    padding:15px;
+}
+
+.harga{
+    color:#ff5d8f;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+/* BUTTON */
+
+button{
+    background:#ff8fab;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#fb6f92;
+}
+
+/* KERANJANG */
+
+.cart-box{
+    width:300px;
+    position:fixed;
+    right:20px;
+    top:20px;
+    padding:20px;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.cart-box h2{
+    color:#d63384;
+    margin-bottom:15px;
+}
+
+.cart-item{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+    border-bottom:1px solid #ffd6e8;
+    padding-bottom:10px;
+}
+
+.cart-item img{
+    width:60px;
+    height:60px;
+    border-radius:10px;
+    object-fit:cover;
+}
+
+.cart-detail{
+    flex:1;
+}
+
+.total-cart{
+    margin-top:15px;
+    font-weight:bold;
+    color:#ff5d8f;
+}
+
+/* TABLE */
+
+table{
+    width:100%;
+    overflow:hidden;
+}
+
+th,td{
+    padding:15px;
+    border:1px solid #ffd6e8;
+    text-align:center;
+}
+
+th{
+    background:#ff8fab;
+    color:white;
+}
+
+.menu{
+    display:none;
+}
+
+#dashboard{
+    display:block;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <h2>Beauty Cosmic</h2>
+
+    <li onclick="menu('dashboard')">Dashboard</li>
+    <li onclick="menu('produk')">Produk</li>
+    <li onclick="menu('penjualan')">Penjualan</li>
+
+</div>
+
+
+<!-- KERANJANG -->
+
+<div class="cart-box">
+
+    <h2>Keranjang</h2>
+
+    <div id="cart"></div>
+
+    <div class="total-cart">
+        Total : Rp <span id="totalHarga">0</span>
+    </div>
+
+    <button
+        onclick="checkout()"
+        style="width:100%;margin-top:15px;"
+    >
+        Checkout
+    </button>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <!-- DASHBOARD -->
+
+    <div id="dashboard" class="menu">
+
+        <div class="header">
+
+            <h1>Dashboard Penjualan</h1>
+
+            <p>Sistem Penjualan Modern</p>
+
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Produk</h3>
+                <h1 id="jmlProduk"></h1>
+            </div>
+
+            <div class="card">
+                <h3>Total Keranjang</h3>
+                <h1 id="jmlCart"></h1>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PRODUK -->
+
+    <div id="produk" class="menu">
+
+        <div class="produk-grid" id="produkGrid"></div>
+
+    </div>
+
+
+    <!-- PENJUALAN -->
+
+    <div id="penjualan" class="menu">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Produk</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabel"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+// MENU
+
+function menu(id){
+
+    document
+    .querySelectorAll('.menu')
+    .forEach(x=>x.style.display='none');
+
+    document.getElementById(id).style.display='block';
+}
+
+
+
+// DATA PRODUK
+
+const produk=[
+
+{
+    nama:"Make Up Pink Glow",
+    harga:120000,
+    gambar:"https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9"
+},
+
+{
+    nama:"Lip Cream Beauty",
+    harga:85000,
+    gambar:"https://images.unsplash.com/photo-1596462502278-27bfdc403348"
+},
+
+{
+    nama:"Body Lotion Beauty",
+    harga:95000,
+    gambar:"https://images.unsplash.com/photo-1619451334792-150fd785ee74"
+},
+
+{
+    nama:"Serum Beauty",
+    harga:150000,
+    gambar:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be"
+}
+
+];
+
+
+
+// LOCAL STORAGE
+
+let keranjang=
+JSON.parse(localStorage.getItem("keranjang")) || [];
+
+
+
+// TAMPIL PRODUK
+
+function tampilProduk(){
+
+    let html='';
+
+    produk.forEach((p,i)=>{
+
+        html+=`
+
+        <div class="produk-card">
+
+            <img src="${p.gambar}">
+
+            <div class="produk-detail">
+
+                <h3>${p.nama}</h3>
+
+                <div class="harga">
+                    Rp ${p.harga}
+                </div>
+
+                <button onclick="tambah(${i})">
+                    + Keranjang
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+
+    produkGrid.innerHTML=html;
+
+    jmlProduk.innerHTML=produk.length;
+}
+
+
+
+// TAMBAH KERANJANG
+
+function tambah(i){
+
+    keranjang.push(produk[i]);
+
+    simpan();
+
+}
+
+
+
+// SIMPAN
+
+function simpan(){
+
+    localStorage.setItem(
+        "keranjang",
+        JSON.stringify(keranjang)
+    );
+
+    tampilKeranjang();
+
+    tampilPenjualan();
+}
+
+
+
+// TAMPIL KERANJANG
+
+function tampilKeranjang(){
+
+    let html='';
+    let total=0;
+
+    keranjang.forEach((k,i)=>{
+
+        total+=k.harga;
+
+        html+=`
+
+        <div class="cart-item">
+
+            <img src="${k.gambar}">
+
+            <div class="cart-detail">
+
+                <h4>${k.nama}</h4>
+
+                <p>Rp ${k.harga}</p>
+
+                <button
+                    onclick="hapus(${i})"
+                    style="margin-top:5px;background:#ff4d6d;"
+                >
+                    Hapus
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+
+    cart.innerHTML=html;
+
+    totalHarga.innerHTML=total;
+
+    jmlCart.innerHTML=keranjang.length;
+}
+
+
+
+// HAPUS
+
+function hapus(i){
+
+    keranjang.splice(i,1);
+
+    simpan();
+}
+
+
+
+// PENJUALAN
+
+function tampilPenjualan(){
+
+    let html='';
+
+    keranjang.forEach((k,i)=>{
+
+        html+=`
+
+        <tr>
+
+            <td>${i+1}</td>
+
+            <td>${k.nama}</td>
+
+            <td>Rp ${k.harga}</td>
+
+        </tr>
+
+        `;
+    });
+
+    tabel.innerHTML=html;
+}
+
+
+
+// CHECKOUT
+
+function checkout(){
+
+    if(!keranjang.length)
+    return alert("Keranjang kosong");
+
+    alert("Checkout berhasil");
+
+    keranjang=[];
+
+    localStorage.removeItem("keranjang");
+
+    tampilKeranjang();
+
+    tampilPenjualan();
+}
+// LOAD
+
+tampilProduk();
+
+tampilKeranjang();
+
+tampilPenjualan();
+
+</script>
+
+</body>
+</html>
